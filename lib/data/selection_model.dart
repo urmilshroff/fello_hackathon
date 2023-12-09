@@ -1,13 +1,14 @@
 enum Choice {
-  smartphone,
-  car,
-  house,
+  shopping,
+  laptop,
+  dinner,
+  vacation,
 }
 
 class SelectionModel {
   final Choice choice;
   final int cost;
-  final int tenure;
+  final int tenure; // no. of months
 
   const SelectionModel({
     required this.choice,

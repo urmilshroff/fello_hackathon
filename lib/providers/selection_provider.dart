@@ -10,4 +10,8 @@ class SelectionManager extends StateNotifier<SelectionModel?> {
   final StateNotifierProviderRef ref;
 
   SelectionManager(this.ref) : super(null);
+
+  void makeSelection(SelectionModel selection) {
+    state = selection;
+  }
 }
