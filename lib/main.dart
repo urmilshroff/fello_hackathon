@@ -1,3 +1,4 @@
+import 'package:development/helpers/colors.dart';
 import 'package:development/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         title: 'StreakSave',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.tealAccent,
+            seedColor: StreakColors.green,
             brightness: Brightness.dark,
           ),
           useMaterial3: true,

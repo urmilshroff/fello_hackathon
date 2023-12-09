@@ -1,5 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
+import 'package:development/helpers/colors.dart';
 import 'package:development/pages/selection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -10,24 +12,15 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final showButton = useState(false);
-
+    final isComplete = useState(false);
     final circularAnimationController = useAnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 750),
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('StreakSave 💸'),
-        centerTitle: true,
-      ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedTextKit(
+      body: Center(
+        child: !isComplete.value
+            ? AnimatedTextKit(
                 animatedTexts: [
                   FadeAnimatedText(
                     'Welcome to',
@@ -37,10 +30,10 @@ class HomePage extends HookWidget {
                     ),
                   ),
                   FadeAnimatedText(
-                    'StreakSave',
+                    'StreakSave 💸',
                     textStyle: const TextStyle(
-                      color: Colors.tealAccent,
-                      fontSize: 40.0,
+                      color: StreakColors.green,
+                      fontSize: 42.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -53,20 +46,21 @@ class HomePage extends HookWidget {
                   ),
                 ],
                 totalRepeatCount: 1,
-                pause: const Duration(milliseconds: 700),
-                onFinished: () => circularAnimationController.forward(),
-              ),
-              CircularRevealAnimation(
+                pause: const Duration(milliseconds: 750),
+                onFinished: () {
+                  AudioPlayer()
+                      .play(DeviceFileSource('assets/audio/intro.mp3'));
+                  isComplete.value = true;
+                  circularAnimationController.forward();
+                },
+              )
+            : CircularRevealAnimation(
                 animation: CurvedAnimation(
                   parent: circularAnimationController,
                   curve: Curves.easeOut,
                 ),
-                centerOffset: Offset(50.w, 50.h),
                 child: const SelectionPage(),
               ),
-            ],
-          ),
-        ],
       ),
     );
   }
